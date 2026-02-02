@@ -5,7 +5,6 @@ from urllib.error import HTTPError, URLError
 from pathlib import Path
 
 DOC_ID = "1r97FlQiwhxuOgarlIuaYIPhX5TTORU5Nm-jXGh_beTw"
-EDIT_URL = f"https://docs.google.com/document/d/{DOC_ID}/edit"
 
 # Stable source (File → Share → Publish to web)
 PUBLISHED_URL = "https://docs.google.com/document/d/e/2PACX-1vTZ6cfCb9i4XYmTYThMTF-DDYpuIRmz-L5_5ReQzg3Jzpn9ngwO706ux2b33NGuJRGMppLBubjGUg0m/pub"
@@ -117,28 +116,27 @@ def make_page(source_html: str) -> str:
   <div class="wrap">
     {body}
   </div>
-<script>
-  // Remove the Google "Published using Google Docs" header block
-  const killPhrases = ["Published using Google Docs", "Report abuse", "Learn more"];
-  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT);
 
-  const candidates = [];
-  while (walker.nextNode()) {
-    const el = walker.currentNode;
-    const text = (el.textContent || "").trim();
-    if (!text) continue;
-    if (killPhrases.some(p => text.includes(p)) && text.length < 300) {
-      candidates.push(el);
-    }
-  }
+  <script>
+    // Remove the Google "Published using Google Docs" header block
+    const killPhrases = ["Published using Google Docs", "Report abuse", "Learn more"];
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT);
 
-  // Remove the smallest meaningful container that contains those phrases
-  candidates.forEach(el => {
-    const container = el.closest("div") || el;
-    container.remove();
-  });
-</script>
+    const candidates = [];
+    while (walker.nextNode()) {{
+      const el = walker.currentNode;
+      const text = (el.textContent || "").trim();
+      if (!text) continue;
+      if (killPhrases.some(p => text.includes(p)) && text.length < 300) {{
+        candidates.push(el);
+      }}
+    }}
 
+    candidates.forEach(el => {{
+      const container = el.closest("div") || el;
+      container.remove();
+    }});
+  </script>
 </body>
 </html>
 """
