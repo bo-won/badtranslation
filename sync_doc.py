@@ -15,19 +15,59 @@ OUT = Path("index.html")
 CSS = """
 <style>
   :root { color-scheme: light; }
-  html, body { margin: 0; padding: 0; background: #fff; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    overflow-x: hidden;
+  }
+
   body {
     font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
     color: #000;
   }
 
-  .wrap { max-width: 900px; margin: 0 auto; padding: 20px 16px 80px; }
+  .wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 16px 80px;
+    overflow-x: hidden;
+  }
+
+  /* Make everything respect screen width */
+  .wrap, .wrap * {
+    box-sizing: border-box;
+    max-width: 100% !important;
+  }
 
   /* Responsive images */
-  img { max-width: 100% !important; height: auto !important; }
+  img {
+    display: block;
+    max-width: 100% !important;
+    height: auto !important;
+  }
 
-  /* Tables may overflow on mobile */
-  table { max-width: 100%; display: block; overflow-x: auto; }
+  /* Tables from Google export can cause overflow */
+  table {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: block;
+    overflow-x: auto;
+  }
+
+  td {
+    width: auto !important;
+  }
+
+  /* Hide the annoying "Published using Google Docs" header */
+  #header, .header, .doc-header, .publish-banner, .published-header {
+    display: none !important;
+  }
+
+  a[href*="reportabuse"] {
+    display: none !important;
+  }
 
   /* Floating Edit button */
   .edit {
