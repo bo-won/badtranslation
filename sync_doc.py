@@ -69,20 +69,19 @@ CSS = """
     display: none !important;
   }
 
-  /* Floating Edit button */
-  .edit {
-    position: fixed;
-    right: 12px;
-    bottom: 12px;
-    padding: 10px 12px;
-    background: rgba(255,255,255,0.92);
-    border: 1px solid rgba(0,0,0,0.12);
-    border-radius: 999px;
-    font: 14px/1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-    text-decoration: none;
-    color: #000;
-    z-index: 10;
-  }
+  /* Tighten spacing (Google export uses big margins) */
+p { margin: 0.6em 0; }
+p:has(img) { margin: 0.4em 0; }      /* works in modern browsers */
+img { margin: 0 !important; }
+
+/* Fallback: if :has isn't supported, at least reduce general spacing */
+@media (max-width: 700px) {
+  p { margin: 0.45em 0; }
+}
+
+/* Common wrappers around images */
+figure, div, span { margin-top: 0 !important; margin-bottom: 0 !important; }
+
 </style>
 """
 
@@ -118,8 +117,28 @@ def make_page(source_html: str) -> str:
   <div class="wrap">
     {body}
   </div>
+<script>
+  // Remove the Google "Published using Google Docs" header block
+  const killPhrases = ["Published using Google Docs", "Report abuse", "Learn more"];
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT);
 
-  <a class="edit" href="{EDIT_URL}" target="_blank" rel="noopener">Edit</a>
+  const candidates = [];
+  while (walker.nextNode()) {
+    const el = walker.currentNode;
+    const text = (el.textContent || "").trim();
+    if (!text) continue;
+    if (killPhrases.some(p => text.includes(p)) && text.length < 300) {
+      candidates.push(el);
+    }
+  }
+
+  // Remove the smallest meaningful container that contains those phrases
+  candidates.forEach(el => {
+    const container = el.closest("div") || el;
+    container.remove();
+  });
+</script>
+
 </body>
 </html>
 """
