@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>4.s14 Publication Studio: Copies and Bad Translation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .doc-wrapper {
+      flex: 1;              /* takes remaining height */
+      min-height: 0;        /* IMPORTANT for iframe flex children */
+    }
+
+    .doc-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+    <div class="doc-wrapper">
+    <iframe src="https://docs.google.com/document/d/e/2PACX-1vQ-LxdHEBTqYNxciJMTUnVdTlQVdEhPfaCbBWgZFlyRYTJpSjedWzjQwDWevF2xTjMMhR_xgJCR1cFc/pub?embedded=true"></iframe>
+  </div>
+</body>
+</html>
