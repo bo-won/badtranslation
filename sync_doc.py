@@ -42,4 +42,4 @@ CSS = """
 </style>
 """
 
-EDIT_URL_
+EDIT_URL
